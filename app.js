@@ -3,6 +3,11 @@ const mongoose = require('mongoose')
 const app = express()
 const port = 3000
 
+const exphbs = require('express-handlebars')
+
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
+app.set('view engine', 'hbs')
+
 mongoose.connect('mongodb://localhost/todo-list', { useNewUrlParser: true, useUnifiedTopology: true })
 
 const db = mongoose.connection
@@ -16,7 +21,7 @@ db.once('open', () => {
 })
 
 app.get('/', (req, res) => {
-  res.send('This todo-list project is made by express.')
+  res.render('index')
 })
 
 app.listen(port, () => {
